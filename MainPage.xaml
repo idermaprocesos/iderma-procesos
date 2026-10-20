@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Iderma_Procesos.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:Iderma_Procesos"
+    Background="Transparent"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <local:SelectorPlantillaSeccion x:Key="SelectorSeccion">
+            <local:SelectorPlantillaSeccion.Texto>
+                <DataTemplate>
+                    <Border
+                        Margin="0,0,0,12"
+                        Padding="12"
+                        Background="{ThemeResource LayerFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Spacing="8">
+                            <TextBlock FontWeight="SemiBold" Text="{Binding Titulo}" />                                                                                            
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{Binding Ayuda}"
+                                TextWrapping="Wrap" />
+                            <TextBox
+                                MinHeight="88"
+                                AcceptsReturn="True"
+                                PlaceholderText="Escriba el texto de esta parte."
+                                Text="{Binding Contenido, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </local:SelectorPlantillaSeccion.Texto>
+            <local:SelectorPlantillaSeccion.Desarrollo>
+                <DataTemplate>
+                    <Border
+                        Margin="0,0,0,12"
+                        Padding="12"
+                        Background="{ThemeResource LayerFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Spacing="8">
+                            <TextBlock FontWeight="SemiBold" Text="{Binding Titulo}" />
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{Binding Ayuda}"
+                                TextWrapping="Wrap" />
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="Área" />
+                                <TextBlock Grid.Column="1" Style="{ThemeResource CaptionTextBlockStyle}" Text="Responsable" />
+                            </Grid>
+                            <ItemsControl ItemsSource="{Binding FilasDesarrollo}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,8" Spacing="6">
+                                            <Grid ColumnSpacing="8">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox
+                                                    PlaceholderText="Área"
+                                                    Text="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                <TextBox
+                                                    Grid.Column="1"
+                                                    PlaceholderText="Responsable"
+                                                    Text="{Binding Responsable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                <Button
+                                                    Grid.Column="2"
+                                                    Padding="10,6"
+                                                    VerticalAlignment="Bottom"
+                                                    Click="QuitarDesarrollo_Click"
+                                                    Tag="{Binding}"
+                                                    ToolTipService.ToolTip="Quitar fila">
+                                                    <FontIcon FontSize="12" Glyph="&#xE74D;" />
+                                                </Button>
+                                            </Grid>
+                                            <TextBox
+                                                MinHeight="64"
+                                                AcceptsReturn="True"
+                                                Header="Actividad detallada"
+                                                PlaceholderText="Describa la actividad."
+                                                Text="{Binding Actividad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Button HorizontalAlignment="Left" Click="AgregarDesarrollo_Click" Tag="{Binding}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon FontSize="14" Glyph="&#xE710;" />
+                                    <TextBlock Text="Agregar fila" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </local:SelectorPlantillaSeccion.Desarrollo>
+            <local:SelectorPlantillaSeccion.Cambios>
+                <DataTemplate>
+                    <Border
+                        Margin="0,0,0,12"
+                        Padding="12"
+                        Background="{ThemeResource LayerFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                        <StackPanel Spacing="8">
+                            <TextBlock FontWeight="SemiBold" Text="{Binding Titulo}" />
+                            <TextBlock
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{Binding Ayuda}"
+                                TextWrapping="Wrap" />
+                            <ItemsControl ItemsSource="{Binding FilasCambio}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Margin="0,0,0,8"
+                                            Padding="8"
+                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="4">
+                                            <StackPanel Spacing="8">
+                                                <Grid ColumnSpacing="8">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="72" />
+                                                        <ColumnDefinition Width="120" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBox
+                                                        Header="Versión"
+                                                        Text="{Binding Version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <TextBox
+                                                        Grid.Column="1"
+                                                        Header="Fecha"
+                                                        PlaceholderText="dd/MM/yyyy"
+                                                        Text="{Binding Fecha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <TextBox
+                                                        Grid.Column="2"
+                                                        Header="Elaboró"
+                                                        Text="{Binding Elaboro, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <TextBox
+                                                        Grid.Column="3"
+                                                        Header="Revisó"
+                                                        Text="{Binding Reviso, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <TextBox
+                                                        Grid.Column="4"
+                                                        Header="Aprobó"
+                                                        Text="{Binding Aprobo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <Button
+                                                        Grid.Column="5"
+                                                        Padding="10,6"
+                                                        VerticalAlignment="Bottom"
+                                                        Click="QuitarCambio_Click"
+                                                        Tag="{Binding}"
+                                                        ToolTipService.ToolTip="Quitar fila">
+                                                        <FontIcon FontSize="12" Glyph="&#xE74D;" />
+                                                    </Button>
+                                                </Grid>
+                                                <TextBox
+                                                    MinHeight="64"
+                                                    AcceptsReturn="True"
+                                                    Header="Descripción del cambio"
+                                                    Text="{Binding Descripcion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <Button HorizontalAlignment="Left" Click="AgregarCambio_Click" Tag="{Binding}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon FontSize="14" Glyph="&#xE710;" />
+                                    <TextBlock Text="Agregar fila" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </local:SelectorPlantillaSeccion.Cambios>
+        </local:SelectorPlantillaSeccion>
+        <Style x:Key="CeldaVista" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="0.7" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Padding" Value="3,1" />
+        </Style>
+    </Page.Resources>
+
+    <Page.KeyboardAccelerators>
+        <KeyboardAccelerator Key="N" Invoked="NuevoAtajo" Modifiers="Control" />
+    </Page.KeyboardAccelerators>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            Grid.Column="0"
+            Padding="0,4,0,12"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,0,1,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="16,8,16,8" Spacing="2">
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Procedimientos" />
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Text="La carátula queda fija. El contenido del procedimiento se edita a la derecha."
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <ListView
+                x:Name="Lista"
+                Grid.Row="1"
+                SelectionChanged="Lista_SelectionChanged"
+                SelectionMode="Single">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Padding="4,2" Spacing="2">
+                            <TextBlock FontWeight="SemiBold" Text="{Binding CodigoLista}" />
+                            <TextBlock
+                                MaxLines="2"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="{Binding TituloLista}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackPanel Grid.Row="2" Margin="12,8,12,0" Spacing="8">
+                <Button HorizontalAlignment="Stretch" Click="Nuevo_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="14" Glyph="&#xE710;" />
+                        <TextBlock Text="Nuevo procedimiento" />
+                    </StackPanel>
+                </Button>
+                <Button
+                    HorizontalAlignment="Stretch"
+                    Click="Combinar_Click"
+                    ToolTipService.ToolTip="Unir varios procedimientos en un solo archivo">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="14" Glyph="&#xE8EE;" />
+                        <TextBlock Text="Combinar" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="Editor" Grid.Column="1" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="420" />
+                <ColumnDefinition Width="400" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Margin="24,12,24,0" Spacing="8">
+                    <Grid ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Name="EstadoGuardado"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="Listo" />
+                        <Button
+                            Grid.Column="1"
+                            Click="Duplicar_Click"
+                            ToolTipService.ToolTip="Duplicar">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="14" Glyph="&#xE8C8;" />
+                                <TextBlock Text="Duplicar" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Column="2"
+                            Click="Eliminar_Click"
+                            ToolTipService.ToolTip="Eliminar">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="14" Glyph="&#xE74D;" />
+                                <TextBlock Text="Eliminar" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Column="3"
+                            Click="Generar_Click"
+                            Style="{ThemeResource AccentButtonStyle}">
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="G" Modifiers="Control" />
+                            </Button.KeyboardAccelerators>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE8A5;" />
+                                <TextBlock Text="Generar Word" />
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            Grid.Column="4"
+                            Click="GenerarPdf_Click"
+                            ToolTipService.ToolTip="Exportar el mismo documento en PDF">
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="P" Modifiers="Control" />
+                            </Button.KeyboardAccelerators>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xEA90;" />
+                                <TextBlock Text="Generar PDF" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                    <InfoBar
+                        x:Name="Aviso"
+                        IsClosable="True"
+                        IsOpen="False" />
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="1" Padding="24,12,24,24">
+                    <StackPanel MaxWidth="1080" Spacing="16">
+                        <Border
+                            Padding="16"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                            <StackPanel Spacing="12">
+                                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Tabla de control" />
+                                <TextBox
+                                    Header="Título del procedimiento"
+                                    PlaceholderText="Nombre del procedimiento"
+                                    Text="{Binding Titulo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        Header="Código"
+                                        PlaceholderText="PRI-CTB-07"
+                                        Text="{Binding Codigo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox
+                                        Grid.Column="1"
+                                        Header="Versión"
+                                        Text="{Binding Version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <CalendarDatePicker
+                                        Grid.Column="2"
+                                        MinWidth="0"
+                                        HorizontalAlignment="Stretch"
+                                        Date="{Binding FechaDocumentoPicker, Mode=TwoWay}"
+                                        Header="Fecha"
+                                        PlaceholderText="Seleccionar" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border
+                            Padding="16"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                            <StackPanel Spacing="12">
+                                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Tabla de firmas" />
+                                <TextBlock
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="Las tres columnas quedan como en la carátula. El recuadro de arriba se deja en blanco para la firma."
+                                    TextWrapping="Wrap" />
+                                <Grid ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Spacing="8">
+                                        <TextBlock FontWeight="SemiBold" Text="Elaborado por" />
+                                        <CalendarDatePicker
+                                            MinWidth="0"
+                                        HorizontalAlignment="Stretch"
+                                            Date="{Binding FechaElaboracionPicker, Mode=TwoWay}"
+                                            Header="Fecha"
+                                            PlaceholderText="Seleccionar" />
+                                        <TextBox
+                                            Header="Nombre"
+                                            Text="{Binding ElaboradoNombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox
+                                            Header="Cargo"
+                                            Text="{Binding ElaboradoCargo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" Spacing="8">
+                                        <TextBlock FontWeight="SemiBold" Text="Revisado por" />
+                                        <CalendarDatePicker
+                                            MinWidth="0"
+                                        HorizontalAlignment="Stretch"
+                                            Date="{Binding FechaRevisionPicker, Mode=TwoWay}"
+                                            Header="Fecha"
+                                            PlaceholderText="Seleccionar" />
+                                        <TextBox
+                                            Header="Nombre"
+                                            Text="{Binding RevisadoNombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox
+                                            Header="Cargo"
+                                            Text="{Binding RevisadoCargo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Spacing="8">
+                                        <TextBlock FontWeight="SemiBold" Text="Aprobado por" />
+                                        <CalendarDatePicker
+                                            MinWidth="0"
+                                        HorizontalAlignment="Stretch"
+                                            Date="{Binding FechaAprobacionPicker, Mode=TwoWay}"
+                                            Header="Fecha"
+                                            PlaceholderText="Seleccionar" />
+                                        <TextBox
+                                            Header="Nombre"
+                                            Text="{Binding AprobadoNombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox
+                                            Header="Cargo"
+                                            Text="{Binding AprobadoCargo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border
+                            Padding="16"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                            <StackPanel Spacing="12">
+                                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="Contenido del procedimiento" />
+                                <TextBlock
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="Estas partes salen desde la página 2, con interlineado 1,5 y texto justificado. La carátula es la única sin interlineado."
+                                    TextWrapping="Wrap" />
+                                <ItemsControl ItemTemplateSelector="{StaticResource SelectorSeccion}" ItemsSource="{Binding Secciones}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <Border
+                Grid.Column="1"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+                BorderThickness="1,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Margin="20,16,20,0"
+                        Style="{ThemeResource SubtitleTextBlockStyle}"
+                        Text="Carátula" />
+                    <Viewbox
+                        Grid.Row="1"
+                        Margin="16,8"
+                        Stretch="Uniform">
+                        <Grid Width="420" Height="594" Background="White">
+                            <Grid Margin="16,14,16,14">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="85*" />
+                                        <ColumnDefinition Width="224*" />
+                                        <ColumnDefinition Width="52*" />
+                                        <ColumnDefinition Width="63*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="16" />
+                                        <RowDefinition Height="16" />
+                                        <RowDefinition Height="16" />
+                                        <RowDefinition Height="16" />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.RowSpan="4" Style="{StaticResource CeldaVista}">
+                                        <Image Margin="2" Source="Assets/logo.png" Stretch="Uniform" />
+                                    </Border>
+                                    <Border Grid.RowSpan="4" Grid.Column="1" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="8"
+                                            FontWeight="Bold"
+                                            Foreground="Black"
+                                            Text="{Binding TituloMayusculas}"
+                                            TextAlignment="Center"
+                                            TextWrapping="Wrap" />
+                                    </Border>
+                                    <Border Grid.Column="2" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            FontWeight="Bold"
+                                            Foreground="Black"
+                                            Text="Código:" />
+                                    </Border>
+                                    <Border Grid.Column="3" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            Foreground="Black"
+                                            Text="{Binding Codigo}" />
+                                    </Border>
+                                    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            FontWeight="Bold"
+                                            Foreground="Black"
+                                            Text="Versión:" />
+                                    </Border>
+                                    <Border Grid.Row="1" Grid.Column="3" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            Foreground="Black"
+                                            Text="{Binding Version}" />
+                                    </Border>
+                                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            FontWeight="Bold"
+                                            Foreground="Black"
+                                            Text="Fecha:" />
+                                    </Border>
+                                    <Border Grid.Row="2" Grid.Column="3" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            Foreground="Black"
+                                            Text="{Binding FechaDocumentoTexto}" />
+                                    </Border>
+                                    <Border Grid.Row="3" Grid.Column="2" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            FontWeight="Bold"
+                                            Foreground="Black"
+                                            Text="Página:" />
+                                    </Border>
+                                    <Border Grid.Row="3" Grid.Column="3" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            Foreground="Black"
+                                            Text="1 de …" />
+                                    </Border>
+                                </Grid>
+
+                                <StackPanel
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Spacing="12">
+                                    <Image
+                                        Width="128"
+                                        Source="Assets/logo.png"
+                                        Stretch="Uniform" />
+                                    <TextBlock
+                                        MaxWidth="340"
+                                        FontFamily="Arial"
+                                        FontSize="12"
+                                        FontWeight="Bold"
+                                        Foreground="Black"
+                                        Text="{Binding TituloMayusculas}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
+
+                                <Grid Grid.Row="2" Height="104">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="14" />
+                                        <RowDefinition Height="32" />
+                                    </Grid.RowDefinitions>
+                                    <Border Style="{StaticResource CeldaVista}" />
+                                    <Border Grid.Column="1" Style="{StaticResource CeldaVista}" />
+                                    <Border Grid.Column="2" Style="{StaticResource CeldaVista}" />
+                                    <Border Grid.Row="1" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            FontWeight="Bold"
+                                            Foreground="Black"
+                                            Text="{Binding FechaElaboracionLinea}" />
+                                    </Border>
+                                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            FontWeight="Bold"
+                                            Foreground="Black"
+                                            Text="{Binding FechaRevisionLinea}" />
+                                    </Border>
+                                    <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource CeldaVista}">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontFamily="Arial"
+                                            FontSize="7"
+                                            FontWeight="Bold"
+                                            Foreground="Black"
+                                            Text="{Binding FechaAprobacionLinea}" />
+                                    </Border>
+                                    <Border Grid.Row="2" Style="{StaticResource CeldaVista}">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock
+                                                FontFamily="Arial"
+                                                FontSize="7"
+                                                FontWeight="Bold"
+                                                Foreground="Black"
+                                                Text="Elaborado por:"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                FontFamily="Arial"
+                                                FontSize="7"
+                                                Foreground="Black"
+                                                Text="{Binding ElaboradoNombre}"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                FontFamily="Arial"
+                                                FontSize="7"
+                                                Foreground="Black"
+                                                Text="{Binding ElaboradoCargo}"
+                                                TextAlignment="Center"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource CeldaVista}">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock
+                                                FontFamily="Arial"
+                                                FontSize="7"
+                                                FontWeight="Bold"
+                                                Foreground="Black"
+                                                Text="Revisado por:"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                FontFamily="Arial"
+                                                FontSize="7"
+                                                Foreground="Black"
+                                                Text="{Binding RevisadoNombre}"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                FontFamily="Arial"
+                                                FontSize="7"
+                                                Foreground="Black"
+                                                Text="{Binding RevisadoCargo}"
+                                                TextAlignment="Center"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource CeldaVista}">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock
+                                                FontFamily="Arial"
+                                                FontSize="7"
+                                                FontWeight="Bold"
+                                                Foreground="Black"
+                                                Text="Aprobado por:"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                FontFamily="Arial"
+                                                FontSize="7"
+                                                Foreground="Black"
+                                                Text="{Binding AprobadoNombre}"
+                                                TextAlignment="Center" />
+                                            <TextBlock
+                                                FontFamily="Arial"
+                                                FontSize="7"
+                                                Foreground="Black"
+                                                Text="{Binding AprobadoCargo}"
+                                                TextAlignment="Center"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Viewbox>
+                    <TextBlock
+                        Grid.Row="2"
+                        Margin="20,0,20,16"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="Así se imprime la primera página. Word numera «1 de …» al abrir el archivo."
+                        TextWrapping="Wrap" />
+                </Grid>
+            </Border>
+        </Grid>
+
+        <StackPanel
+            x:Name="Vacio"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="8">
+            <FontIcon
+                FontSize="32"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Glyph="&#xE8A5;" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                Style="{ThemeResource SubtitleTextBlockStyle}"
+                Text="No hay procedimientos" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Text="Cree uno para generar la carátula en Word." />
+        </StackPanel>
+    </Grid>
+</Page>

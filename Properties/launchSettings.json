@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Iderma.Procesos (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Iderma.Procesos (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
